@@ -19,10 +19,11 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          context: ./springboot-db/simple-api-student/
           java-version: '17'
           distribution: 'adopt'
           cache: maven
 
       - name: Build and test with Maven
+        working-directory: spring/simpleapi
         run: mvn clean install
+        
