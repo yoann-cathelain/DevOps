@@ -13,7 +13,7 @@ services:
     database:
         image: jaykabonk/database:1.0
         volumes:
-            - ./local-db:/var/lib/postgresql/data
+            - local-db:/var/lib/postgresql/data
         networks:
         - my-network
 
@@ -28,3 +28,6 @@ services:
 
 networks:
     my-network:
+
+volumes:
+    local-db:
