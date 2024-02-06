@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    backend:
+        image: jaykabonk/backend:1.0
+        networks:
+            - my-network
+        environment:  
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://database/aled
+            - SPRING_DATASOURCE_USERNAME=aled
+            - SPRING_DATASOURCE_PASSWORD=aled
+
+    database:
+        image: jaykabonk/database:1.0
+        volumes:
+            - ./local-db:/var/lib/postgresql/data
+        networks:
+        - my-network
+
+    httpd:
+        image: jaykabonk/httpd:1.0
+        ports:
+        - "80:80"
+        networks:
+        - my-network
+        depends_on:
+        - backend
+
+networks:
+    my-network:
