@@ -1,4 +1,4 @@
-name: CI devops 2023
+name: CI/CD DevOps Sonar TP2
 
 on:
   push:
@@ -11,11 +11,11 @@ on:
       - develop
 
 jobs:
-  test-backend: 
+  build-run-sonarcloud: 
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2.5.0
-
+      - uses: actions/checkout@v3
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -25,5 +25,6 @@ jobs:
 
       - name: Build and test with Maven
         working-directory: spring-db/simple-api-student
-        run: mvn clean install
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=yoann-cathelain_devops -Dsonar.organization=yoann-cathelain -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{secrets.SONAR_TOKEN}}  --file pom.xml
+
         

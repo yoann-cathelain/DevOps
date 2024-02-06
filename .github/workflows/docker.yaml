@@ -1,0 +1,41 @@
+name: CI/CD DevOps Docker TP2
+
+on: 
+  workflow_run:
+    workflows: ["CI/CD DevOps Sonar TP2"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  build-docker-image:
+    if: ${{ github.event.workflow_run.conclusion == "success" }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.5.0
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build BACKEND image and push to DockerHub
+        uses: docker/build-push-action@v3
+        with:
+          context: ./spring-db/simple-api-student
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-tp1:latest
+          push: ${{ github.ref == 'refs/heads/main'}}
+
+      - name: Build DATABASE image and push to DockerHub
+        uses: docker/build-push-action@v3
+        with:
+          context: ./TP1
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/database-tp1:latest
+          push: ${{ github.ref == 'refs/heads/main'}}
+
+      - name: Build HTTP image and push to DockerHub
+        uses: docker/build-push-action@v3
+        with:
+          context: ./http
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/httpd-tp1:latest
+          push: ${{ github.ref == 'refs/heads/main'}}
