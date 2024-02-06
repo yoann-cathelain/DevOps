@@ -1,5 +1,6 @@
 name: CI/CD DevOps Sonar TP2
 
+# Only for push and pull-request on main and develop so it doesn't overload pipelines
 on:
   push:
     branches:
@@ -14,8 +15,10 @@ jobs:
   build-run-sonarcloud: 
     runs-on: ubuntu-22.04
     steps:
+      # Checkout code, allow workflow to access it
       - uses: actions/checkout@v3
       
+      # Setup Java 17 Environment
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -23,6 +26,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
+      # Set working directory for spring boot application and launch maven verify + sonar cloud analysis
       - name: Build and test with Maven
         working-directory: spring-db/simple-api-student
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=yoann-cathelain_devops -Dsonar.organization=yoann-cathelain -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{secrets.SONAR_TOKEN}}  --file pom.xml
