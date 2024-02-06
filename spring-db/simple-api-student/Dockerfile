@@ -9,6 +9,9 @@ RUN mvn package -DskipTests
 # Run
 FROM amazoncorretto:17
 ENV MYAPP_HOME /opt/myapp
+ENV SPRING_DATASOURCE_URL jdbc:postgresql://database/aled
+ENV SPRING_DATASOURCE_USERNAME aled
+ENV SPRING_DATASOURCE_PASSWORD aled
 WORKDIR $MYAPP_HOME
 COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
 

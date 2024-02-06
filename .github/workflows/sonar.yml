@@ -26,9 +26,25 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
+      - name: Cache SonarCloud
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+
       # Set working directory for spring boot application and launch maven verify + sonar cloud analysis
       - name: Build and test with Maven
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Needed to authenticate with SonarCloud
         working-directory: spring-db/simple-api-student
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=yoann-cathelain_devops -Dsonar.organization=yoann-cathelain -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{secrets.SONAR_TOKEN}}  --file pom.xml
-
-        
