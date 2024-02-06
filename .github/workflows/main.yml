@@ -24,6 +24,6 @@ jobs:
           cache: maven
 
       - name: Build and test with Maven
-        working-directory: spring/simpleapi
+        working-directory: spring-db/simple-api-student
         run: mvn clean install
         
