@@ -1,0 +1,23 @@
+# tasks file for roles/db
+
+  - name: Install python3
+    yum:
+      name: python3
+      state: present
+
+  - name: Install docker with Python 3
+    pip:
+      name: docker
+      executable: pip3
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+
+
+  - name: Create DB container
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+    docker_container:
+      name: database
+      networks: 
+        - name: app-network
+      image: jaykabonk/database-tp1

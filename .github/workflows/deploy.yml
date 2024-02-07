@@ -1,0 +1,29 @@
+name: CI/CD DevOps deploy Docker App
+
+on:
+  workflow_run:
+    workflows: ["CI/CD DevOps Docker TP2"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy_ansible:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.5.0
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: playbook.yml
+          key: ${{secrets.ANSIBLE_SSH_KEY}}
+          directory: ansible/
+          inventory: |
+            [all]
+            yoann.cathelain.takima.cloud
+          vault_password: ${{secrets.ANSIBLE_VAULT_PASSWORD}}
