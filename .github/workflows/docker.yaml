@@ -50,4 +50,4 @@ jobs:
         with:
           context: ./devops-front
           tags: ${{secrets.DOCKERHUB_USERNAME}}/devops-frontend:latest
-          push: ${{ github.ref == 'refs/heads/main '}}
+          push: ${{ github.ref == 'refs/heads/main'}}

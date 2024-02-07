@@ -27,4 +27,4 @@
       ports:
         - "80:80"
       env:
-        VUE_APP_API_URL: "yoann.cathelain.takima.cloud:8080"
+        VUE_APP_API_URL: "yoann.cathelain.takima.cloud"
