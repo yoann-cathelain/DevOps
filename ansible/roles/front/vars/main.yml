@@ -1,0 +1,4 @@
+---
+# vars file for roles/front
+
+VUE_APP_API_URL: yoann.cathelain.takima.cloud:8080
