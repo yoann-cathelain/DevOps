@@ -44,3 +44,10 @@ jobs:
           context: ./http
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/httpd-tp1:latest
           push: ${{ github.ref == 'refs/heads/main'}}
+
+      - name: Build Front-end image and push to DockerHub
+        uses: docker/build-push-action@v3
+        with:
+          context: ./devops-front
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/devops-frontend:latest
+          push: ${{ github.ref == 'refs/heads/main '}}

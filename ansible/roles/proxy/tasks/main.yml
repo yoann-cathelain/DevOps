@@ -21,6 +21,8 @@
       networks:
         - name: app-network
       image: jaykabonk/httpd-tp1
+      recreate: true
+      pull: true
       ports:
-        - 80:80
+        - 81:80
       

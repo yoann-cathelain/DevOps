@@ -22,6 +22,8 @@
       networks:
         - name: app-network
       image: jaykabonk/backend-tp1
+      recreate: true
+      pull: true
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://database/aled
         SPRING_DATASOURCE_USERNAME: aled
